@@ -4,3 +4,5 @@ build:
 	docker build -t myy92715/hive:$(current_branch) ./
 push:
 	docker push myy92715/hive:$(current_branch)
+pull:
+	docker pull myy92715/hive:$(current_branch)
