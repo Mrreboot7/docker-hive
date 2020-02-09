@@ -45,6 +45,8 @@ RUN chmod +x /usr/local/bin/startup.sh
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+RUN rm -rf $HIVE_HOME/lib/guava-19.0.jar && cp /opt/hadoop-3.2.1/share/hadoop/common/lib/guava-27.0-jre.jar $HIVE_HOME/lib
+
 EXPOSE 10000
 EXPOSE 10002
 
