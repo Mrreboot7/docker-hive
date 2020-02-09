@@ -5,7 +5,6 @@ services:
     image: myy92715/hadoop-namenode:2.0.0-hadoop3.2.1-java8
     ports:
       - 9870:9870
-      - 9050:9000
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
     environment:
