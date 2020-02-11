@@ -50,7 +50,7 @@ RUN rm -rf $HIVE_HOME/lib/guava-19.0.jar && cp /opt/hadoop-3.2.1/share/hadoop/co
 EXPOSE 10000
 EXPOSE 10002
 
-VOLUME ["/etc/hadoop/core-site.xml","/etc/hadoop/hdfs-site.xml"]
+VOLUME ["/etc/hadoop"]
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD startup.sh
