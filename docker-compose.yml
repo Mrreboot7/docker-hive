@@ -55,9 +55,10 @@ services:
     image: shawnzhu/prestodb:329
     container_name: bigdata_hive_presto_coordinator
     volumes:
-      - ./catalog/db2.properties:/usr/lib/presto/default/etc/catalog/db2.properties:ro
-      - ./catalog/hive.properties:/usr/lib/presto/default/etc/catalog/hive.properties:ro
-      - ./catalog/thrift.properties:/usr/lib/presto/default/etc/catalog/thrift.properties:ro
+      - ./presto/catalog/db2.properties:/usr/lib/presto/default/etc/catalog/db2.properties:ro
+      - ./presto/catalog/hive.properties:/usr/lib/presto/default/etc/catalog/hive.properties:ro
+      - ./presto/catalog/thrift.properties:/usr/lib/presto/default/etc/catalog/thrift.properties:ro
+      - ./presto/hadoop:/etc/hadoop
     ports:
       - '8080:8080'
 
