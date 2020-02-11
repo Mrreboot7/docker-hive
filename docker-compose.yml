@@ -3,6 +3,7 @@ version: '3'
 services:
   namenode:
     image: myy92715/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: bigdata_namenode
     ports:
       - 9870:9870
     volumes:
@@ -14,6 +15,9 @@ services:
 
   datanode:
     image: myy92715/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: bigdata_datanode
+    ports:
+      - 9864:9864
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
     environment:
@@ -23,6 +27,7 @@ services:
 
   hive-server:
     image: myy92715/hive:3.1.2-postgresql-metastore
+    container_name: bigdata_hive_server
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -33,6 +38,7 @@ services:
       - '10002:10002'
   hive-metastore:
     image: myy92715/hive:3.1.2-postgresql-metastore
+    container_name: bigdata_hive_metastore
     env_file:
       - ./hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
@@ -42,16 +48,18 @@ services:
       - '9083:9083'
   hive-metastore-postgresql:
     image: myy92715/hive-metastore-postgresql:3.1.0
+    container_name: bigdata_hive_metastore_postgresql
     volumes:
       - hive_postgresql_data:/var/lib/postgresql/data
-  presto:
-    image: myy92715/presto:329-hive
+  presto-coordinator:
+    image: shawnzhu/prestodb:329
+    container_name: bigdata_hive_presto_coordinator
+    volumes:
+      - ./catalog/db2.properties:/usr/lib/presto/default/etc/catalog/db2.properties:ro
+      - ./catalog/hive.properties:/usr/lib/presto/default/etc/catalog/hive.properties:ro
+      - ./catalog/thrift.properties:/usr/lib/presto/default/etc/catalog/thrift.properties:ro
     ports:
-      - '9090:8080'
-    environment:
-      SERVICE_PRECONDITION: 'hive-metastore:9083'
-    env_file:
-      - ./hadoop-hive.env
+      - '8080:8080'
 
 volumes:
   hadoop_namenode:
