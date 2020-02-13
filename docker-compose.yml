@@ -26,30 +26,34 @@ services:
       - ./hadoop-hive.env
 
   hive-server:
-    image: myy92715/hive:3.1.2-postgresql-metastore
+    image: myy92715/3.1.2-mysql-metastore
     container_name: bigdata_hive_server
     env_file:
       - ./hadoop-hive.env
     environment:
-      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: 'jdbc:postgresql://hive-metastore/metastore'
       SERVICE_PRECONDITION: 'hive-metastore:9083'
     ports:
       - '10000:10000'
   hive-metastore:
-    image: myy92715/hive:3.1.2-postgresql-metastore
+    image: myy92715/hive:3.1.2-mysql-metastore
     container_name: bigdata_hive_metastore
     env_file:
       - ./hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
     environment:
-      SERVICE_PRECONDITION: 'namenode:9870 datanode:9864 hive-metastore-postgresql:5432'
+      SERVICE_PRECONDITION: 'namenode:9870 datanode:9864 hive-metastore-mysql:3060'
     ports:
       - '9083:9083'
-  hive-metastore-postgresql:
-    image: myy92715/hive-metastore-postgresql:3.1.0
-    container_name: bigdata_hive_metastore_postgresql
+  hive-metastore-mysql:
+    image: mysql:8.0.19
+    container_name: bigdata_hive_metastore_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: hive
+      MYSQL_PASSWORD: hive
+      MYSQL_DATABASE: matestore
     volumes:
-      - hive_postgresql_data:/var/lib/postgresql/data
+      - hive_mysql_data:/var/lib/mysql
   presto-coordinator:
     image: shawnzhu/prestodb:329
     container_name: bigdata_hive_presto_coordinator
@@ -64,4 +68,4 @@ services:
 volumes:
   hadoop_namenode:
   hadoop_datanode:
-  hive_postgresql_data:
+  hive_mysql_data:
