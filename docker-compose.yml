@@ -48,7 +48,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: hive
       MYSQL_PASSWORD: hive
-      MYSQL_DATABASE: matestore
+      MYSQL_DATABASE: metastore
     volumes:
       - hive_mysql_data:/var/lib/mysql
 
