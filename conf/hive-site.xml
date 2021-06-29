@@ -15,4 +15,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 --><configuration>
+<property>
+    <name>hive.exec.post.hooks</name>
+    <value>org.apache.atlas.hive.hook.HiveHook</value>
+</property>
 </configuration>
