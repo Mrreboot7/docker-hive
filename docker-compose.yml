@@ -24,7 +24,9 @@ services:
       - ./hadoop-hive.env
 
   hive-server:
-    image: myy92715/hive:3.1.2-mysql-metastore
+    image: myy92715/hive:server
+    depends_on:
+      - hive-metastore
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -33,10 +35,9 @@ services:
       - '10000:10000'
 
   hive-metastore:
-    image: myy92715/hive:3.1.2-mysql-metastore
+    image: myy92715/hive:metastore
     env_file:
       - ./hadoop-hive.env
-    command: /opt/hive/bin/hive --service metastore
     environment:
       SERVICE_PRECONDITION: 'namenode:9870 datanode:9864 hive-metastore-mysql:3060'
     ports:
